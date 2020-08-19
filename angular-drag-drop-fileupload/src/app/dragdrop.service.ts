@@ -20,7 +20,7 @@ export class DragdropService {
       formData.append('avatar', arr[0][i]);
     })
 
-    return this.http.post('http://localhost:4000/api/create-user', formData, {
+    return this.http.post('http://localhost:4000/api/upload-image', formData, {
       reportProgress: true,
       observe: 'events'
     }).pipe(

@@ -1,25 +1,25 @@
 let express = require('express'),
-  mongoose = require('mongoose'),
+  // mongoose = require('mongoose'),
   cors = require('cors'),
-  bodyParser = require('body-parser'),
-  dbConfig = require('./database/db');
+  bodyParser = require('body-parser');
+  // dbConfig = require('./database/db');
 
 
 // Routes to Handle Request
-const userRoute = require('../backend/routes/user.route')
+const userRoute = require('../backend/routes/upload.route')
 
 
 // MongoDB Setup
-mongoose.Promise = global.Promise;
-mongoose.connect(dbConfig.db, {
-  useNewUrlParser: true
-}).then(() => {
-  console.log('Database sucessfully connected')
-},
-  error => {
-    console.log('Database could not be connected: ' + error)
-  }
-)
+// mongoose.Promise = global.Promise;
+// mongoose.connect(dbConfig.db, {
+//   useNewUrlParser: true
+// }).then(() => {
+//   console.log('Database sucessfully connected')
+// },
+//   error => {
+//     console.log('Database could not be connected: ' + error)
+//   }
+// )
 
 // Setup Express.js
 const app = express();
@@ -31,7 +31,7 @@ app.use(cors());
 
 
 // Make Images "Uploads" Folder Publicly Available
-app.use('/public', express.static('public'));
+// app.use('/public', express.static('public'));
 
 
 // API Route
