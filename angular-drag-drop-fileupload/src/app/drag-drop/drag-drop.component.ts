@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray } from "@angular/forms";
 import { DragdropService } from "../dragdrop.service";
+import { ClassifyService } from "../classify.service";
 import { HttpEvent, HttpEventType } from '@angular/common/http';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -13,17 +14,21 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 export class DragDropComponent implements OnInit {
 
+  currentImage = [];
   fileArr = [];
   imgArr = [];
   fileObj = [];
   form: FormGroup;
   msg: string;
   progress: number = 0;
+  prediction = [];
+  isFileUploaded = false;
 
   constructor(
     public fb: FormBuilder,
     private sanitizer: DomSanitizer,
-    public dragdropService: DragdropService
+    public dragdropService: DragdropService,
+    public classifyService: ClassifyService
   ) {
     this.form = this.fb.group({
       avatar: [null]
@@ -31,6 +36,15 @@ export class DragDropComponent implements OnInit {
   }
 
   ngOnInit() { }
+
+  classifyClothes() {
+    console.log(this.currentImage)
+    this.classifyService.classifyClothes(this.currentImage[0])
+    .subscribe(data => {
+      this.prediction.push(data.name);
+      console.log(this.prediction)
+    })
+  }
 
   upload(e) {
     const fileListAsArray = Array.from(e);
@@ -69,10 +83,14 @@ export class DragDropComponent implements OnInit {
           case HttpEventType.Response:
             console.log('File uploaded successfully!', event.body);
             setTimeout(() => {
+              this.fileArr.map((file) => {
+                this.currentImage.push(file.item.name)
+              });
               this.progress = 0;
               this.fileArr = [];
               this.fileObj = [];
               this.msg = "File uploaded successfully!"
+              this.isFileUploaded = true;
             }, 3000);
         }
       })

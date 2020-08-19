@@ -4,7 +4,7 @@ let express = require('express'),
   router = express.Router();
 
 // Multer File upload settings
-const DIR = './public/';
+const DIR = '../../Images/';
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
