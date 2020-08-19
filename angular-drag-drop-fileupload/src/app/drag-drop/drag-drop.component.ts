@@ -44,7 +44,7 @@ export class DragDropComponent implements OnInit {
     console.log(this.currentImages)
     console.log(this.currentImages.length)
     this.classifyService.classifyClothes(this.currentImages[this.currentImages.length - 1])
-    .subscribe(data => {
+    .subscribe((data: any) => {
       if(this.prediction.length < this.currentImages.length)
       this.prediction.push({'prediction':data.name, 'name':this.currentImages[this.currentImages.length - 1]});
       console.log(this.prediction)

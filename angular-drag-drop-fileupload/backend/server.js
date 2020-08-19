@@ -32,6 +32,12 @@ app.use(cors());
 
 // Make Images "Uploads" Folder Publicly Available
 // app.use('/public', express.static('public'));
+app.use(express.static(__dirname + "/dist/"));
+
+app.get("/*", function(req, res, next) {
+  res.sendFile(path.join(__dirname, "/dist/index.html"));
+});
+
 
 
 // API Route
