@@ -14,7 +14,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 export class DragDropComponent implements OnInit {
 
-  currentImage = [];
+  currentImages = [];
   fileArr = [];
   imgArr = [];
   fileObj = [];
@@ -23,6 +23,8 @@ export class DragDropComponent implements OnInit {
   progress: number = 0;
   prediction = [];
   isFileUploaded = false;
+  isPredicting = false;
+  isPredicted = false;
 
   constructor(
     public fb: FormBuilder,
@@ -38,11 +40,17 @@ export class DragDropComponent implements OnInit {
   ngOnInit() { }
 
   classifyClothes() {
-    console.log(this.currentImage)
-    this.classifyService.classifyClothes(this.currentImage[0])
+    this.isPredicting = true;
+    console.log(this.currentImages)
+    console.log(this.currentImages.length)
+    this.classifyService.classifyClothes(this.currentImages[this.currentImages.length - 1])
     .subscribe(data => {
-      this.prediction.push(data.name);
+      if(this.prediction.length < this.currentImages.length)
+      this.prediction.push({'prediction':data.name, 'name':this.currentImages[this.currentImages.length - 1]});
       console.log(this.prediction)
+      this.isPredicting = false
+      this.isPredicted = true
+      this.isFileUploaded = false
     })
   }
 
@@ -84,7 +92,7 @@ export class DragDropComponent implements OnInit {
             console.log('File uploaded successfully!', event.body);
             setTimeout(() => {
               this.fileArr.map((file) => {
-                this.currentImage.push(file.item.name)
+                this.currentImages.push(file.item.name)
               });
               this.progress = 0;
               this.fileArr = [];

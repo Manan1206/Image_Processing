@@ -29,16 +29,16 @@
                     </div>
                     <p>{{file.item.name}}</p>
                 </div>
-                <p class="message">{{msg}}</p>
+                <p class="message" *ngIf="!isPredicted">{{msg}}</p>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-12" style="margin-bottom: 25px">
                 <div style="display:flex; justify-content: center;">
-                    <button [disabled]="!isFileUploaded" (click)="classifyClothes()">Predict</button>
+                    <button [disabled]="!isFileUploaded && !isPredicting" (click)="classifyClothes()">Predict</button>
                 </div>
             </div>
-            <div class="col-md-12 prediction">
-                <div style="display:flex; justify-content: center; font-size: 30px; color:white" *ngFor="let p of prediction; let i = index">
-                    Prediction: {{p}}
+            <div class="col-md-12 col-lg-12 prediction">
+                <div style="display:flex; justify-content: center; font-size: 25px; color:white" *ngFor="let p of prediction; let i = index">
+                    {{p.name}}: {{p.prediction}}
                 </div>
             </div>
         </div>
